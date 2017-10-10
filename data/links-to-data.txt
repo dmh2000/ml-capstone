@@ -1,0 +1,21 @@
+Download these two files, unzip them and then copy the resulting .hgt files to the specified locations
+
+Two areas, one flat, one mountainous
+Wichita, KS area. Flat         N38W098
+Reno,NV area      Mountainous, N39W120
+
+Level 1 data : 1201x1201 : copy to ./level1
+------------------------
+Wichita,KS
+https://dds.cr.usgs.gov/srtm/version2_1/SRTM3/North_America/N37W098.hgt.zip
+
+Reno, NV
+https://dds.cr.usgs.gov/srtm/version2_1/SRTM3/North_America/N39W120.hgt.zip
+
+Level 2 data : 3601x3601 : copy to ./level2
+------------------------
+Wichita, KS
+https://dds.cr.usgs.gov/srtm/version2_1/SRTM1/Region_05/N37W098.hgt.zip
+
+Reno, NV
+https://dds.cr.usgs.gov/srtm/version2_1/SRTM1/Region_01/N39W120.hgt.zip
