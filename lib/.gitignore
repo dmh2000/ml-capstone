@@ -1,2 +1,3 @@
 *.hgt
 *.jpg
+__pycache__

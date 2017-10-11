@@ -188,7 +188,7 @@ def test_subdiv():
 
 def test_mark():
     m = srtm_read("../data/level2/N39W120.hgt")
-    m = srtm_mark(m, 8)
+    m = srtm_mark(m, 16)
     srtm_toimage(m, "img1.jpg", size=m.shape)
     m = srtm_read("../data/level2/N39W120.hgt")
     srtm_toimage(m, "img2.jpg")
@@ -196,5 +196,5 @@ def test_mark():
 
 # local test code
 if __name__ == "__main__":
-    test_subdiv()
+    # test_subdiv()
     test_mark()
