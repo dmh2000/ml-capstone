@@ -126,7 +126,7 @@ def srtm_mark(m, divisor):
     m = srtm_normalize(m,256)
 
     # check for legal divisor
-    divisors = [2, 3, 4, 8, 15, 16, 20, 30, 60, 75, 100]
+    divisors = [2, 3, 4, 8, 15, 16, 20, 30, 60, 75, 100,200]
     cond = (divisor in divisors)
     if cond:
         # proceed with subdivision
