@@ -140,16 +140,15 @@ def mark(m, divisor):
 
         # generate the row subdivisions
         for row in range(0, s, size):
-            print(m[row].shape)
             m[row] = 255
-        m[3599] = 255
+        m[s-1] = 255
 
         # generate the col subdivisions
         for col in range(0, s, size):
             for row in range(0, s):
                 m[0:s:1, col] = 255
 
-        m[3599] = 255
+        m[s-1] = 255
         ret = m
     else:
         # return None
@@ -206,7 +205,6 @@ def stack3m(m):
     b = []
     for a in m:
         c = np.dstack((a, a, a))
-        print(c.shape)
         b.append(c)
     r = np.array(b)
     return r
