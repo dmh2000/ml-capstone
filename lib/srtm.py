@@ -140,13 +140,15 @@ def mark(m, divisor):
 
         # generate the row subdivisions
         for row in range(0, s, size):
-            m[row] = 255
+            m[row+0] = 255
+            m[row+1] = 255
         m[s-1] = 255
 
         # generate the col subdivisions
         for col in range(0, s, size):
             for row in range(0, s):
-                m[0:s:1, col] = 255
+                m[0:s:1, col+0] = 255
+                m[0:s:1, col+1] = 255
 
         m[s-1] = 255
         ret = m

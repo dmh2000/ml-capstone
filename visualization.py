@@ -2,7 +2,7 @@ import numpy as np
 import lib.srtm as srtm
 
 
-def vis_load(input_path, output_path, size=(256, 256)):
+def vis_load(input_path, output_path, size=(1024, 1024)):
     """read srtm file and write as jpeg"""
     # read the image
     a = srtm.read(input_path)
@@ -10,7 +10,7 @@ def vis_load(input_path, output_path, size=(256, 256)):
     srtm.toimage(a, output_path, size)
 
 
-def vis_mark(input_path, output_path, divisions, size=(256, 256)):
+def vis_mark(input_path, output_path, divisions, size=(1024, 1024)):
     """read  srtm file, mark subdivisions and write as jpeg"""
     # read the image
     a = srtm.read(input_path)
