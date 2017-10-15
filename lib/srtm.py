@@ -1,7 +1,10 @@
 #!/usr/bin/env python
 import numpy as np
-import scipy.ndimage.interpolation as terp
-from PIL import Image
+from   PIL import Image
+from   keras.preprocessing.image import ImageDataGenerator
+
+# allowed divisors
+divisors = [2, 3, 4, 5, 8, 15, 16, 20, 30, 60, 75, 100, 200]
 
 
 def read(fname):
@@ -15,6 +18,7 @@ def read(fname):
 
     # fill voids which are == 32768
     # fill with min value
+    # should probably do an interpolation of surrounding non-void points
     imin = np.min(m)
     m[m >= 32768] = imin
 
@@ -28,6 +32,7 @@ def read(fname):
     s -= 1
     m = m[0:s:1, 0:s:1]
 
+    x = m[m == imin]
     return m
 
 
@@ -58,16 +63,21 @@ def toimage(m, fname=None, size=(512, 512)):
 
 
 def normalize(m, scale=1.0):
-    """ rescale the 2d array to float range (0.0..scale]
+    """ rescale the 2d array to float range (0.0..scale)
         - m     : 2d matrix of height postings
         - scale : optional, max value after normalization
         returns the normalized array as floating point
     """
+    # compute range
     imin = np.min(m)
     imax = np.max(m)
     range = imax - imin
+
+    # prevent divide by 0
     if range <= 0:
         range = 1
+
+    # compute scale
     scale = scale / float(range)
 
     # scale all values
@@ -82,11 +92,12 @@ def subdivide(m, divisor):
         allowable subdivisions are [2, 3, 4, 8, 15, 16, 20, 30, 60, 75, 100]
         return an array of all subdivided arrays or None if divisor specified is illegal
     """
+    global divisors
     # get array size
     s = m.shape[0]
 
     # check for legal divisor
-    divisors = [2, 3, 4, 8, 15, 16, 20, 30, 60, 75, 100]
+    # divisors = [2, 3, 4, 8, 15, 16, 20, 30, 60, 75, 100]
     cond = (divisor in divisors)
     if cond:
         # proceed with subdivision
@@ -120,14 +131,16 @@ def mark(m, divisor):
         allowable subdivisions are [2, 3, 4, 8, 15, 16, 20, 30, 60, 75, 100]
         return an array of all subdivided arrays or None if divisor specified is illegal
     """
+    global divisors
+
     # get array size
     s = m.shape[0]
 
     # normalize array to 256
-    m = normalize(m, 256)
+    m = normalize(m, 255)
 
     # check for legal divisor
-    divisors = [2, 3, 4, 8, 15, 16, 20, 30, 60, 75, 100, 200]
+    # divisors = [2, 3, 4, 8, 15, 16, 20, 30, 60, 75, 100, 200]
     cond = (divisor in divisors)
     if cond:
         # proceed with subdivision
@@ -140,30 +153,22 @@ def mark(m, divisor):
 
         # generate the row subdivisions
         for row in range(0, s, size):
-            m[row+0] = 255
-            m[row+1] = 255
-        m[s-1] = 255
+            m[row + 0] = 255
+            m[row + 1] = 255
+        m[s - 1] = 255
 
         # generate the col subdivisions
         for col in range(0, s, size):
             for row in range(0, s):
-                m[0:s:1, col+0] = 255
-                m[0:s:1, col+1] = 255
+                m[0:s:1, col + 0] = 255
+                m[0:s:1, col + 1] = 255
 
-        m[s-1] = 255
+        m[s - 1] = 255
         ret = m
     else:
         # return None
         ret = None
     return ret
-
-
-def rotate(m, angle=90):
-    """rotate a matrix by angle
-       returns the rotate image with no fill
-    """
-    r = terp.rotate(m, angle)
-    return r
 
 
 def stack1(m):
@@ -172,8 +177,8 @@ def stack1(m):
        shape (rows,cols) -> (rows,cols,3) -> (1,rows,cols,3)
        returns the new ndarray
     """
-    a = m.reshape(m.shape + (1,))   # convert to shape (rows,cols,1)
-    b = a.reshape((1, ) + a.shape)  # convert to shape (1,rows,cols,1)
+    a = m.reshape(m.shape + (1,))  # convert to shape (rows,cols,1)
+    b = a.reshape((1,) + a.shape)  # convert to shape (1,rows,cols,1)
     return b
 
 
@@ -184,9 +189,10 @@ def stack1m(m):
        shape (rows,cols) -> (rows,cols,3) -> (1,rows,cols,3)
        returns the new ndarray
     """
-    a = m.reshape(m.shape + (1,))   # convert to shape (rows,cols,1)
-    b = a.reshape((1, ) + a.shape)  # convert to shape (1,rows,cols,1)
+    a = m.reshape(m.shape + (1,))  # convert to shape (rows,cols,1)
+    b = a.reshape((1,) + a.shape)  # convert to shape (1,rows,cols,1)
     return b
+
 
 def stack3(m):
     """stack a 1 channel, 2d matrix into an RGB image tensor for ImageDataGenerator
@@ -194,8 +200,8 @@ def stack3(m):
        shape (rows,cols) -> (rows,cols,3) -> (1,rows,cols,3)
        returns the new ndarray
     """
-    a = np.dstack((m, m, m))       # convert to shape (rows,cols,3)
-    b = a.reshape((1, ) + a.shape)  # convert to shape (1,rows,cols,3)
+    a = np.dstack((m, m, m))  # convert to shape (rows,cols,3)
+    b = a.reshape((1,) + a.shape)  # convert to shape (1,rows,cols,3)
     return b
 
 
@@ -211,56 +217,63 @@ def stack3m(m):
     r = np.array(b)
     return r
 
-def test_images():
-    m = read("../data/level1/N37W098.hgt")
-    print(m.shape)
-    toimage(m, "../doc/L1_n37w098.jpg")
 
-    m = read("../data/level1/N39W120.hgt")
-    print(m.shape)
-    toimage(m, "../doc/L1_n39w120.jpg")
-
-    m = read("../data/level2/N37W098.hgt")
-    print(m.shape)
-    toimage(m, "../doc/L2_n37w098.jpg")
-
-    m = read("../data/level2/N39W120.hgt")
-    print(m.shape)
-    toimage(m, "../doc/L2_n39w120.jpg")
+def get_divisors():
+    """get the list of allowed divisors"""
+    global divisors
+    return divisors
 
 
-def test_subdiv():
-    m = read("../data/level2/N39W120.hgt")
-    d = subdivide(m, 8)
+def get_subdivisions():
+    """ get a list of divisors and subdivision counts"""
+    global divisors
+    a = []
+    for d in divisors:
+        a.append((d, d * d))
+    return a
+
+
+def array_to_tensor(m):
+    """reshape (n,n) to keras image tensor (batch,rows,cols,depth)"""
+    x = m.reshape((1,) + m.shape + (1,))
+    return x
+
+
+def tensor_to_array(t):
+    """write single tensor as an image"""
+    m = t[0]
+    n = m.reshape(m.shape[0],m.shape[1])
+    return n
+
+
+def datagen(m, count):
+    """generate 'count' modified images from single image array
+       images are return as keras image tensors
+    """
+    x = array_to_tensor(m)
+
+    # create the datagenerator
+    datagen = ImageDataGenerator(
+        rotation_range=30,
+        height_shift_range=0.1,
+        width_shift_range=0.1,
+        horizontal_flip=False,
+        fill_mode='nearest'
+    )
+
+    # generate 'count' modified images
     i = 0
-    print(len(d))
-    for a in d:
-        name = "a" + str(i) + ".jpg"
-        print(a.shape)
-        toimage(a, name, size=a.shape)
+    y = np.array([1])
+    r = []
+    for xb,yb in datagen.flow(x, y, batch_size=1):
+        # store the result
+        r.append(xb)
+        # number of iterations
         i += 1
+        if i >= count:
+            break  # otherwise the generator would loop indefinitely
 
-
-def test_mark():
-    m = read("../data/level2/N39W120.hgt")
-    m = mark(m, 16)
-    toimage(m, "img1.jpg", size=m.shape)
-    m = read("../data/level2/N39W120.hgt")
-    toimage(m, "img2.jpg")
-
-
-def test_rotate():
-    m = read("../data/level2/N39W120.hgt")
-    print(m.shape)
-    toimage(m, "r1.jpg")
-    r = terp.rotate(m, 45.0)
-    print(r.shape)
-    toimage(r, "r2.jpg")
-    d = subdivide(m, 8)
-    toimage(d[0],"d0.jpg")
-    d1 = terp.rotate(d[0],90.0)
-    toimage(d1,"d1.jpg")
-
+    return np.array(r)
 
 # local test code
 if __name__ == "__main__":
