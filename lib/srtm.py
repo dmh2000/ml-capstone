@@ -275,8 +275,19 @@ def datagen(m, count):
 
     return np.array(r)
 
-# local test code
-if __name__ == "__main__":
-    test_subdiv()
-    # test_mark()
-    # test_rotate()
+
+def read_and_subdivide(fname,divisions):
+    # read the input file
+    try:
+        # read the raw data
+        m = read(fname)
+        print("input data shape : {0}".format(m.shape))
+    except Exception as ex:
+        print(type(ex))
+        print(ex)
+        sys.exit(1)
+
+    # subdivide the input file
+    s = subdivide(m, divisions)
+
+    return s
