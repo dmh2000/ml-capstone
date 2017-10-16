@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import sys
 import numpy as np
 from   PIL import Image
 from   keras.preprocessing.image import ImageDataGenerator
@@ -13,8 +14,13 @@ def read(fname):
         the last row and column overlap are trimmed off
         returns 2D array of 16 bit integers
     """
-    # read the file as a 1d array
-    m = np.fromfile(fname, dtype=">H")
+    try:
+        # read the file as a 1d array
+        m = np.fromfile(fname, dtype=">H")
+    except Exception as ex:
+        print(ex)
+        print("invalid input file")
+        sys.exit(1)
 
     # fill voids which are == 32768
     # fill with min value
@@ -242,15 +248,16 @@ def array_to_tensor(m):
 def tensor_to_array(t):
     """write single tensor as an image"""
     m = t[0]
-    n = m.reshape(m.shape[0],m.shape[1])
+    n = m.reshape(m.shape[0], m.shape[1])
     return n
 
 
-def datagen(m, count):
+def datagen(a, count):
     """generate 'count' modified images from single image array
-       images are return as keras image tensors
+       images are returned as a tuple of
+       (keras image tensor,label)
     """
-    x = array_to_tensor(m)
+    x = array_to_tensor(a)
 
     # create the datagenerator
     datagen = ImageDataGenerator(
@@ -263,31 +270,37 @@ def datagen(m, count):
 
     # generate 'count' modified images
     i = 0
-    y = np.array([1])
-    r = []
-    for xb,yb in datagen.flow(x, y, batch_size=1):
-        # store the result
-        r.append(xb)
+    y = [1]
+    xr = []
+
+    # keep original
+    xr.append(x)
+    # create modified copies
+    for xb, yb in datagen.flow(x, y, batch_size=1):
+        # keep the x value
+        xr.append(xb)
         # number of iterations
         i += 1
         if i >= count:
             break  # otherwise the generator would loop indefinitely
 
-    return np.array(r)
+    # return array of x's. labels will applied separately
+    return np.array(xr)
 
 
-def read_and_subdivide(fname,divisions):
-    # read the input file
-    try:
-        # read the raw data
-        m = read(fname)
-        print("input data shape : {0}".format(m.shape))
-    except Exception as ex:
-        print(type(ex))
-        print(ex)
-        sys.exit(1)
+def generate(m, count):
+    """given an array of N 'images', generate count modified images for each of N
+       return a an array of N sets of images
+    """
 
-    # subdivide the input file
-    s = subdivide(m, divisions)
-
-    return s
+    label = 0
+    x = []
+    y = []
+    for a in m:
+        xb = datagen(a, count)
+        # create array of samples and matching labels
+        for a in xb:
+            x.append(a)
+            y.append(label)
+        label += 1
+    return np.array(x), np.array(y)

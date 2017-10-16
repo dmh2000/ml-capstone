@@ -1,5 +1,6 @@
 
-def run(train, validate, test):
+def run(X, y):
     """solution model
     """
     print("benchmark")
+    print(X.shape,y.shape)
