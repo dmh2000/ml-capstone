@@ -304,3 +304,57 @@ def generate(m, count):
             y.append(label)
         label += 1
     return np.array(x), np.array(y)
+
+
+def train_test_split(X, y, stride, split=(.70, .15, .15)):
+    """ divide data into train_test_validate
+       returns train_x,valid_x,test_x,train_y,valid_y,test_y
+    """
+
+    # create train/validate/test groups
+    # data is ordered by label [0,0,0..,1,1,1..]
+    # divide each set into the 3 groups
+    count = y.shape[0]
+
+    train_count = int(stride * split[0])
+    train_offset = 0
+    valid_count = int(stride * split[1])
+    valid_offset = train_offset + train_count
+    test_count = int(stride * split[2])
+    test_offset = valid_offset + valid_count
+
+    train_x = []
+    valid_x = []
+    test_x = []
+    train_y = []
+    valid_y = []
+    test_y = []
+
+    for i in range(0, count, stride):
+        for j in range(train_offset, train_count):
+            k = i + j
+            train_x.append(X[k])
+            train_y.append(y[k])
+        for j in range(valid_offset, valid_offset + valid_count):
+            k = i + j
+            valid_x.append(X[k])
+            valid_y.append(X[k])
+        for j in range(test_offset, test_offset + test_count):
+            k = i + j
+            test_x.append(X[k])
+            test_y.append(y[k])
+        for j in range(i, i + stride):
+            shp = X[j].shape
+            arr = tensor_to_array(X[j])
+            toimage(arr, "preview/img{0}_{1}.jpg".format(y[j], j), (128, 128))
+
+        print()
+
+    print(train_count, valid_count, test_count)
+
+    return np.array(train_x), \
+           np.array(valid_x), \
+           np.array(test_x),  \
+           np.array(train_y), \
+           np.array(valid_y), \
+           np.array(test_y)

@@ -1,4 +1,4 @@
-def run2(X, y):
+def run(X, y, groups):
     """solution model
     """
     print("solution")

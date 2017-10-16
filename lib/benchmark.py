@@ -1,6 +1,9 @@
+import lib.srtm as srtm
 
-def run(X, y):
+
+def run(X, y, groups):
     """solution model
     """
     print("benchmark")
-    print(X.shape,y.shape)
+
+    srtm.train_test_split(X, y, groups)
