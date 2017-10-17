@@ -330,6 +330,8 @@ def train_test_split(X, y, stride, split=(.70, .15, .15)):
     valid_y = []
     test_y = []
 
+    # the data is ordered in groups of the same label of size 'stride'
+    # for each of these groups, split into the 3 train/valid/test arrays
     for i in range(0, count, stride):
         for j in range(train_offset, train_count):
             k = i + j
@@ -338,19 +340,16 @@ def train_test_split(X, y, stride, split=(.70, .15, .15)):
         for j in range(valid_offset, valid_offset + valid_count):
             k = i + j
             valid_x.append(X[k])
-            valid_y.append(X[k])
+            valid_y.append(y[k])
         for j in range(test_offset, test_offset + test_count):
             k = i + j
             test_x.append(X[k])
             test_y.append(y[k])
-        for j in range(i, i + stride):
-            shp = X[j].shape
-            arr = tensor_to_array(X[j])
-            toimage(arr, "preview/img{0}_{1}.jpg".format(y[j], j), (128, 128))
-
-        print()
-
-    print(train_count, valid_count, test_count)
+        # test code to make sure each group has the correct image and label
+        # for j in range(i, i + stride):
+        #     shp = X[j].shape
+        #     arr = tensor_to_array(X[j])
+        #     toimage(arr, "preview/img{0}_{1}.jpg".format(y[j], j), (128, 128))
 
     return np.array(train_x), \
            np.array(valid_x), \
