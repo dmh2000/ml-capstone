@@ -4,7 +4,7 @@ import numpy as np
 from keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D
 from keras.layers import Dropout, Flatten, Dense
 from keras.models import Sequential
-from keras.callbacks import ModelCheckpoint
+from keras.callbacks import ModelCheckpoint, TensorBoard
 import keras.metrics as metrics
 
 
@@ -64,8 +64,18 @@ def run(X, y, labels, groups):
     print("epochs : {0}".format(epochs))
 
     checkpointer = ModelCheckpoint(filepath='saved_models/weights.benchmark.hdf5',
-                                   verbose=0, save_best_only=True)
+                                   verbose=0,
+                                   save_best_only=True)
 
+    tensorboard = TensorBoard(log_dir='./logs',
+                              histogram_freq=0,
+                              batch_size=32,
+                              write_graph=True,
+                              write_grads=False,
+                              write_images=False,
+                              embeddings_freq=0,
+                              embeddings_layer_names=None,
+                              embeddings_metadata=None)
     t0 = time()
 
     # train the model
@@ -73,7 +83,7 @@ def run(X, y, labels, groups):
               validation_data=(valid_X, valid_y),
               epochs=epochs,
               batch_size=20,
-              callbacks=[checkpointer],
+              callbacks=[checkpointer,tensorboard],
               verbose=0
               )
 

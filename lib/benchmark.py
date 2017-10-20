@@ -4,7 +4,7 @@ import numpy as np
 from keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D
 from keras.layers import Dropout, Flatten, Dense
 from keras.models import Sequential
-from keras.callbacks import ModelCheckpoint
+from keras.callbacks import ModelCheckpoint, TensorBoard
 import keras.metrics as metrics
 
 
@@ -31,8 +31,6 @@ def run(X, y, labels, groups):
     # create model
     model = Sequential()
     model.add(Conv2D(filters=32, kernel_size=3, padding='same', activation='relu', input_shape=train_X.shape[1:]))
-    model.add(Conv2D(filters=32, kernel_size=3, padding='same', activation='relu'))
-    model.add(MaxPooling2D(pool_size=2))
     model.add(GlobalAveragePooling2D())
     model.add(Dense(labels, activation='softmax'))
 
@@ -51,6 +49,16 @@ def run(X, y, labels, groups):
     checkpointer = ModelCheckpoint(filepath='saved_models/weights.benchmark.hdf5',
                                    verbose=1, save_best_only=True)
 
+    tensorboard = TensorBoard(log_dir='./logs',
+                              histogram_freq=0,
+                              batch_size=32,
+                              write_graph=True,
+                              write_grads=False,
+                              write_images=True,
+                              embeddings_freq=0,
+                              embeddings_layer_names=None,
+                              embeddings_metadata=None)
+    t0 = time()
     t0 = time()
 
     # train the model
@@ -58,7 +66,7 @@ def run(X, y, labels, groups):
               validation_data=(valid_X, valid_y),
               epochs=epochs,
               batch_size=20,
-              callbacks=[checkpointer],
+              callbacks=[checkpointer, tensorboard],
               verbose=1
               )
 
