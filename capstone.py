@@ -53,11 +53,14 @@ if __name__ == "__main__":
     print("X shape          : {0}".format(X.shape))
     print("y shape          : {0}".format(y.shape))
 
+    # number of labels
+    labels = divisor * divisor
+
     # execute the selected model
     if selected_model == 'benchmark':
-        benchmark.run(X, y, gen_count + 1)
+        benchmark.run(X, y, labels, gen_count + 1)
     elif selected_model == 'solution':
-        solution.run(X, y, gen_count + 1)
+        solution.run(X, y, labels, gen_count + 1)
     else:
         print("model parameter is not valid : must be benchmark or solution")
 

@@ -3,6 +3,7 @@ import sys
 import numpy as np
 from   PIL import Image
 from   keras.preprocessing.image import ImageDataGenerator
+from keras.utils import np_utils
 
 # allowed divisors
 divisors = [2, 3, 4, 5, 8, 15, 16, 20, 30, 60, 75, 100, 200]
@@ -300,13 +301,17 @@ def generate(m, count):
         xb = datagen(a, count)
         # create array of samples and matching labels
         for a in xb:
+            # remove first dimension
+            a = a.reshape(a.shape[1:])
             x.append(a)
             y.append(label)
         label += 1
+    x = np.array(x)
+    y = np.array(y)
     return np.array(x), np.array(y)
 
 
-def train_test_split(X, y, stride, split=(.70, .15, .15)):
+def train_test_split(X, y, labels, stride, split=(.80, .10, .10)):
     """ divide data into train_test_validate
        returns train_x,valid_x,test_x,train_y,valid_y,test_y
     """
@@ -345,15 +350,25 @@ def train_test_split(X, y, stride, split=(.70, .15, .15)):
             k = i + j
             test_x.append(X[k])
             test_y.append(y[k])
-        # test code to make sure each group has the correct image and label
-        # for j in range(i, i + stride):
-        #     shp = X[j].shape
-        #     arr = tensor_to_array(X[j])
-        #     toimage(arr, "preview/img{0}_{1}.jpg".format(y[j], j), (128, 128))
+            # test code to make sure each group has the correct image and label
+            # for j in range(i, i + stride):
+            #     shp = X[j].shape
+            #     arr = tensor_to_array(X[j])
+            #     toimage(arr, "preview/img{0}_{1}.jpg".format(y[j], j), (128, 128))
 
-    return np.array(train_x), \
-           np.array(valid_x), \
-           np.array(test_x),  \
-           np.array(train_y), \
-           np.array(valid_y), \
-           np.array(test_y)
+    # create final feature data
+    train_x = np.array(train_x)
+    valid_x = np.array(valid_x)
+    test_x  = np.array(test_x)
+
+    # scale to 0..1.0
+    train_x = train_x.astype('float32') / 255.0
+    valid_x = valid_x.astype('float32') / 255.0
+    test_x  = test_x.astype('float32') / 255.0
+
+    # create final label data
+    train_y = np_utils.to_categorical(np.array(train_y), labels)
+    valid_y = np_utils.to_categorical(np.array(valid_y), labels)
+    test_y  = np_utils.to_categorical(np.array(test_y), labels)
+
+    return train_x, valid_x, test_x, train_y, valid_y, test_y
