@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import os
 import sys
 import numpy as np
 import lib.srtm      as srtm
@@ -39,8 +40,6 @@ if __name__ == "__main__":
         print(ex)
         sys.exit(1)
 
-    print(time.strftime("%x") + " " + time.strftime("%X"))
-
     # read the input file
     m = srtm.read(fname)
     print("input shape      : {0}".format(m.shape))
@@ -64,10 +63,13 @@ if __name__ == "__main__":
     # number of labels
     labels = divisor * divisor
 
-    # release memory2
+    # release memory
     del (m)
     del (s)
     del (n)
+
+    # create the results subdir
+    os.mkdir("results/" + timestamp)
 
     # execute the selected model
     if selected_model == 'benchmark':

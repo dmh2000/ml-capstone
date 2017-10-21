@@ -10,13 +10,11 @@ from keras.callbacks import ModelCheckpoint, TensorBoard, History, ProgbarLogger
 def run(X, y, labels, groups, epochs, timestamp):
     """solution model
     """
-    print("benchmark")
-
     train_X, valid_X, test_X, train_y, valid_y, test_y = lib.srtm.train_test_split(X, y, labels, groups)
 
     print("train data      X: " + str(train_X.shape) + " y: " + str(train_y.shape))
     print("validation data X: " + str(valid_X.shape) + " y: " + str(valid_y.shape))
-    print("test data       X: " + str(test_X.shape)  + " y: " + str(test_y.shape))
+    print("test data       X: " + str(test_X.shape) + " y: " + str(test_y.shape))
 
     # create model
     model = Sequential()
@@ -57,12 +55,12 @@ def run(X, y, labels, groups, epochs, timestamp):
 
     # train the model
     history = model.fit(train_X, train_y,
-              validation_data=(valid_X, valid_y),
-              epochs=epochs,
-              batch_size=20,
-              callbacks=[checkpointer, tensorboard,historycb, progress],
-              verbose=0
-              )
+                        validation_data=(valid_X, valid_y),
+                        epochs=epochs,
+                        batch_size=20,
+                        callbacks=[checkpointer, tensorboard, historycb, progress],
+                        verbose=0
+                        )
 
     # get end time
     t1 = time()

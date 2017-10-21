@@ -10,22 +10,28 @@ from keras.callbacks import ModelCheckpoint, TensorBoard, History
 def run(X, y, labels, groups, epochs, timestamp):
     """solution model
     """
-    print("benchmark")
 
     train_X, valid_X, test_X, train_y, valid_y, test_y = lib.srtm.train_test_split(X, y, labels, groups)
 
     print("train data      X: " + str(train_X.shape) + " y: " + str(train_y.shape))
     print("validation data X: " + str(valid_X.shape) + " y: " + str(valid_y.shape))
-    print("test data       X: " + str(test_X.shape)  + " y: " + str(test_y.shape))
+    print("test data       X: " + str(test_X.shape) + " y: " + str(test_y.shape))
 
     # create model
     model = Sequential()
+
     model.add(Conv2D(filters=32, kernel_size=3, padding='same', activation='relu', input_shape=train_X.shape[1:]))
     model.add(Dropout(0.2))
     model.add(MaxPooling2D(pool_size=2))
+
     model.add(Conv2D(filters=32, kernel_size=3, padding='same', activation='relu'))
     model.add(Dropout(0.2))
     model.add(MaxPooling2D(pool_size=2))
+
+    model.add(Conv2D(filters=32, kernel_size=3, padding='same', activation='relu'))
+    model.add(Dropout(0.2))
+    model.add(MaxPooling2D(pool_size=2))
+
     model.add(GlobalAveragePooling2D())
     model.add(Dense(labels, activation='softmax'))
 
@@ -65,7 +71,7 @@ def run(X, y, labels, groups, epochs, timestamp):
                         validation_data=(valid_X, valid_y),
                         epochs=epochs,
                         batch_size=20,
-                        callbacks=[checkpointer,tensorboard,historycb, progress],
+                        callbacks=[checkpointer, tensorboard, historycb, progress],
                         verbose=0
                         )
     # get end time
@@ -83,5 +89,3 @@ def run(X, y, labels, groups, epochs, timestamp):
 
     # plot history
     lib.metrics.plot_history('solution', timestamp, history.history)
-
-

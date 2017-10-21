@@ -56,7 +56,7 @@ def plot_history(title, timestamp, history):
     fig.subplots_adjust(wspace=0.25, hspace=0.25)
     fig.suptitle(title + " " + timestamp)
     plt.show()
-    fig.savefig("results/" + timestamp + ".svg")
+    fig.savefig("results/" + timestamp + "/" + timestamp + ".svg")
 
 
 class Progress(keras.callbacks.Callback):
