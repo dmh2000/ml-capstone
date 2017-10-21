@@ -72,26 +72,27 @@ def vis_histogram(a_img):
 
 if __name__ == "__main__":
     np.random.seed(42)
-    # base_files = [
-    #     ["data/level2/N37W098.hgt", "images/level2/N37W098-b.jpg"],
-    #     ["data/level2/N39W120.hgt", "images/level2/N39W120-b.jpg"]
-    # ]
-    # mark_files = [
-    #     ["data/level2/N37W098.hgt", "images/level2/N37W098-m.jpg"],
-    #     ["data/level2/N39W120.hgt", "images/level2/N39W120-m.jpg"]
-    # ]
+    divisor = 5
+    base_files = [
+        ["data/level2/N37W098.hgt", "images/level2/N37W098-b.jpg"],
+        ["data/level2/N39W120.hgt", "images/level2/N39W120-b.jpg"]
+    ]
+    mark_files = [
+        ["data/level2/N37W098.hgt", "images/level2/N37W098-m.jpg"],
+        ["data/level2/N39W120.hgt", "images/level2/N39W120-m.jpg"]
+    ]
 
-    # for f in base_files:
-    #     vis_load(f[0], f[1])
+    for f in base_files:
+        vis_load(f[0], f[1])
 
-    # for f in mark_files:
-    #     vis_mark(f[0], f[1], 8)
+    for f in mark_files:
+        vis_mark(f[0], f[1],divisor)
 
-    # # create subdivided images
-    # vis_subdivide("data/level2/N39W120.hgt", "images/level2", 5)
+    # create subdivided images
+    vis_subdivide("data/level2/N39W120.hgt", "images/level2", divisor)
 
-    # # generate mods of one image
-    # vis_datagen("data/level2/N39W120.hgt", "images/level2", 5)
+    # generate mods of one image
+    vis_datagen("data/level2/N39W120.hgt", "images/level2", divisor)
 
     # histograms
     a_img = [
