@@ -4,20 +4,19 @@ import numpy as np
 from keras.layers import Conv2D, GlobalAveragePooling2D
 from keras.layers import Dense
 from keras.models import Sequential
-from keras.callbacks import ModelCheckpoint, TensorBoard, History
+from keras.callbacks import ModelCheckpoint, TensorBoard, History, ProgbarLogger
 
-def run(X, y, labels, groups):
+
+def run(X, y, labels, groups, epochs, timestamp):
     """solution model
     """
     print("benchmark")
 
     train_X, valid_X, test_X, train_y, valid_y, test_y = lib.srtm.train_test_split(X, y, labels, groups)
 
-    print(train_X.shape, train_y.shape)
-    print(valid_X.shape, valid_y.shape)
-    print(test_X.shape, test_y.shape)
-
-    print(train_X.shape[1:])
+    print("train data      X: " + str(train_X.shape) + " y: " + str(train_y.shape))
+    print("validation data X: " + str(valid_X.shape) + " y: " + str(valid_y.shape))
+    print("test data       X: " + str(test_X.shape)  + " y: " + str(test_y.shape))
 
     # create model
     model = Sequential()
@@ -32,13 +31,12 @@ def run(X, y, labels, groups):
     model.compile(optimizer="rmsprop",
                   loss="categorical_crossentropy",
                   metrics=["accuracy"])
-    print("compiled")
 
-    epochs = 5
-    print("epochs : {0}".format(epochs))
-
-    checkpointer = ModelCheckpoint(filepath='saved_models/weights.benchmark.hdf5',
-                                   verbose=1, save_best_only=True)
+    # create fit callbacks
+    weights_file = 'saved_models/weights.benchmark.hdf5'
+    checkpointer = ModelCheckpoint(filepath=weights_file,
+                                   verbose=0,
+                                   save_best_only=True)
 
     tensorboard = TensorBoard(log_dir='./logs',
                               histogram_freq=0,
@@ -52,7 +50,9 @@ def run(X, y, labels, groups):
 
     historycb = History()
 
-    t0 = time()
+    progress = lib.metrics.Progress()
+
+    # get start time
     t0 = time()
 
     # train the model
@@ -60,14 +60,15 @@ def run(X, y, labels, groups):
               validation_data=(valid_X, valid_y),
               epochs=epochs,
               batch_size=20,
-              callbacks=[checkpointer, tensorboard,historycb],
-              verbose=1
+              callbacks=[checkpointer, tensorboard,historycb, progress],
+              verbose=0
               )
 
+    # get end time
     t1 = time()
 
     # load best weights
-    model.load_weights('saved_models/weights.benchmark.hdf5')
+    model.load_weights(weights_file)
 
     # get the prediction for each test data image
     # this one only gets the top prediction index
@@ -75,3 +76,6 @@ def run(X, y, labels, groups):
 
     # report test metrics
     lib.metrics.print_metrics(predictions, test_y, history.history, epochs, t0, t1)
+
+    # plot history
+    lib.metrics.plot_history(timestamp, history.history)

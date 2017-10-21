@@ -1,14 +1,19 @@
 #!/usr/bin/env python
 import numpy as np
+import keras
+import matplotlib
+
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 
 
-def et(t0,t1):
+def et(t0, t1):
     """compute minutes:seconds and return as a string"""
     t = t1 - t0
     t = int(t)
     m = int(t / 60)
     s = int(t % 60)
-    return str(m) + ":" + str(s)
+    return "{0:02d}".format(m) + ":" + "{0:02d}".format(s)
 
 
 def print_metrics(predictions, test_y, history, epochs, t0, t1):
@@ -25,9 +30,50 @@ def print_metrics(predictions, test_y, history, epochs, t0, t1):
     print("best  val loss : {0:.4f}".format(h['val_loss'][np.argmin(h['val_loss'])]))
 
     # report test accuracy
-    test_accuracy = 100*np.sum(np.array(predictions)==np.argmax(test_y, axis=1))/len(predictions)
+    test_accuracy = 100 * np.sum(np.array(predictions) == np.argmax(test_y, axis=1)) / len(predictions)
     print('Avg Accuracy   : %.4f%%' % test_accuracy)
 
+    # print epochs
+    print("epochs         : {0}".format(epochs))
     # print training time
     print("training time  : " + et(t0, t1))
-2
+
+
+def plot(ax, data, label):
+    ax.set_title('acc')
+    ax.plot(data)
+    ax.grid()
+
+
+def plot_history(timestamp, history):
+    """plot the history graphs"""
+    fig, ax = plt.subplots(2, 2)
+
+    plot(ax[0, 0], history['acc'], 'acc')
+    plot(ax[0, 1], history['loss'], 'loss')
+    plot(ax[1, 0], history['val_acc'], 'val_acc')
+    plot(ax[1, 1], history['val_loss'], 'val_loss')
+    plt.show()
+
+
+class Progress(keras.callbacks.Callback):
+    """custom progress callback to minimize verbosity but still see progress"""
+
+    def __init__(self):
+        keras.callbacks.Callback.__init__(self)
+        self.count = 0
+
+    def on_train_begin(self, logs=None):
+        print("<<START>>")
+
+    def on_epoch_begin(self, epoch, logs=None):
+        print(".", end='', flush=True)
+
+    def on_epoch_end(self, epoch, logs=None):
+        self.count += 1
+        if self.count >= 50:
+            print()
+            self.count = 0
+
+    def on_train_end(self, logs=None):
+        print("\n<<DONE>>")
