@@ -1,26 +1,17 @@
 from time import time
-import lib.srtm as srtm
+import lib
 import numpy as np
-from keras.layers import Conv2D, MaxPooling2D, GlobalAveragePooling2D
-from keras.layers import Dropout, Flatten, Dense
+from keras.layers import Conv2D, GlobalAveragePooling2D
+from keras.layers import Dense
 from keras.models import Sequential
-from keras.callbacks import ModelCheckpoint, TensorBoard
-import keras.metrics as metrics
-
-
-def et(t):
-    t = int(t)
-    m = int(t / 60)
-    s = int(t % 60)
-    return str(m) + ":" + str(s)
-
+from keras.callbacks import ModelCheckpoint, TensorBoard, History
 
 def run(X, y, labels, groups):
     """solution model
     """
     print("benchmark")
 
-    train_X, valid_X, test_X, train_y, valid_y, test_y = srtm.train_test_split(X, y, labels, groups)
+    train_X, valid_X, test_X, train_y, valid_y, test_y = lib.srtm.train_test_split(X, y, labels, groups)
 
     print(train_X.shape, train_y.shape)
     print(valid_X.shape, valid_y.shape)
@@ -43,7 +34,7 @@ def run(X, y, labels, groups):
                   metrics=["accuracy"])
     print("compiled")
 
-    epochs = 20
+    epochs = 5
     print("epochs : {0}".format(epochs))
 
     checkpointer = ModelCheckpoint(filepath='saved_models/weights.benchmark.hdf5',
@@ -58,20 +49,22 @@ def run(X, y, labels, groups):
                               embeddings_freq=0,
                               embeddings_layer_names=None,
                               embeddings_metadata=None)
+
+    historycb = History()
+
     t0 = time()
     t0 = time()
 
     # train the model
-    model.fit(train_X, train_y,
+    history = model.fit(train_X, train_y,
               validation_data=(valid_X, valid_y),
               epochs=epochs,
               batch_size=20,
-              callbacks=[checkpointer, tensorboard],
+              callbacks=[checkpointer, tensorboard,historycb],
               verbose=1
               )
 
     t1 = time()
-    print(et(t1 - t0))
 
     # load best weights
     model.load_weights('saved_models/weights.benchmark.hdf5')
@@ -80,6 +73,5 @@ def run(X, y, labels, groups):
     # this one only gets the top prediction index
     predictions = [np.argmax(model.predict(np.expand_dims(tensor, axis=0))) for tensor in test_X]
 
-    # report test accuracy
-    test_accuracy = 100*np.sum(np.array(predictions)==np.argmax(test_y, axis=1))/len(predictions)
-    print('Test accuracy: %.4f%%' % test_accuracy)
+    # report test metrics
+    lib.metrics.print_metrics(predictions, test_y, history.history, epochs, t0, t1)

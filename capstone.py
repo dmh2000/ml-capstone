@@ -2,7 +2,7 @@
 import sys
 import numpy as np
 import keras
-import lib.srtm as srtm
+import lib.srtm      as srtm
 import lib.benchmark as benchmark
 import lib.solution  as solution
 
