@@ -82,4 +82,6 @@ def run(X, y, labels, groups, epochs, timestamp):
     lib.metrics.print_metrics(predictions, test_y, history.history, epochs, t0, t1)
 
     # plot history
-    lib.metrics.plot_history(timestamp, history.history)
+    lib.metrics.plot_history('solution', timestamp, history.history)
+
+

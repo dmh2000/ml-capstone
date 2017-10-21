@@ -2,6 +2,7 @@
 import numpy as np
 import keras
 import matplotlib
+
 matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 
@@ -44,16 +45,18 @@ def plot(ax, data, label):
     ax.grid()
 
 
-def plot_history(timestamp, history):
+def plot_history(title, timestamp, history):
     """plot the history graphs"""
-    fig, ax = plt.subplots(4)
+    fig, ax = plt.subplots(2, 2)
 
-    plot(ax[0], history['acc'], 'acc')
-    plot(ax[1], history['loss'], 'loss')
-    plot(ax[2], history['val_acc'], 'val_acc')
-    plot(ax[3], history['val_loss'], 'val_loss')
+    plot(ax[0, 0], history['acc'], 'acc')
+    plot(ax[0, 1], history['loss'], 'loss')
+    plot(ax[1, 0], history['val_acc'], 'val_acc')
+    plot(ax[1, 1], history['val_loss'], 'val_loss')
+    fig.subplots_adjust(wspace=0.25, hspace=0.25)
+    fig.suptitle(title + " " + timestamp)
     plt.show()
-    fig.savefig(timestamp + ".svg")
+    fig.savefig("results/" + timestamp + ".svg")
 
 
 class Progress(keras.callbacks.Callback):

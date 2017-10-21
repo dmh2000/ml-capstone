@@ -43,7 +43,7 @@ def run(X, y, labels, groups, epochs, timestamp):
                               batch_size=32,
                               write_graph=True,
                               write_grads=False,
-                              write_images=True,
+                              write_images=False,
                               embeddings_freq=0,
                               embeddings_layer_names=None,
                               embeddings_metadata=None)
@@ -78,4 +78,4 @@ def run(X, y, labels, groups, epochs, timestamp):
     lib.metrics.print_metrics(predictions, test_y, history.history, epochs, t0, t1)
 
     # plot history
-    lib.metrics.plot_history(timestamp, history.history)
+    lib.metrics.plot_history("benchmark", timestamp, history.history)

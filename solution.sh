@@ -13,4 +13,4 @@ FILE="results/solution.$NOW.txt"
 echo "writing to $FILE"
 
 # run the project
-python capstone.py data/level1/N39W120.hgt 16 15 300 solution | tee $FILE
+python capstone.py data/level1/N39W120.hgt 16 15 300 solution $NOW | tee $FILE

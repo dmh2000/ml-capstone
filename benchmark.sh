@@ -13,5 +13,5 @@ FILE="results/benchmark.$NOW.txt"
 echo "writing to $FILE"
 
 # run the project
-python -u capstone.py data/level1/N39W120.hgt 16 15 25 benchmark $NOW | tee $FILE
+python -u capstone.py data/level1/N39W120.hgt 16 15 300 benchmark $NOW | tee $FILE
 
