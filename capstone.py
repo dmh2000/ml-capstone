@@ -169,9 +169,6 @@ if __name__ == "__main__":
     del (s)
     del (n)
 
-    # create the results subdir
-    os.mkdir("results/" + timestamp)
-
     # initialize models
     lib.models.init()
 

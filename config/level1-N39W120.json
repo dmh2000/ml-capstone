@@ -1,7 +1,7 @@
 {
-  "model"    : "solution",
-  "datafile" : "data/level2/N39W120.hgt",
+  "model"    : "model1",
+  "datafile" : "data/level1/N39W120.hgt",
   "divisor"  : "16",
-  "gencount" : "15",
+  "augments" : "15",
   "epochs"   : "300"
 }

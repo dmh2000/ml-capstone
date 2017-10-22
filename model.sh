@@ -16,7 +16,9 @@ mkdir results/$NOW
 # create timestamped filename
 FILE="results/$NOW/$NOW.txt"
 
+# print it
+echo "writing to $FILE"
 
 # run the project
-python -u capstone.py config/benchmark.json $NOW | tee $FILE
+python -u capstone.py $1 $NOW | tee $FILE
 
