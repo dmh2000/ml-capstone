@@ -7,7 +7,7 @@ from keras.models import Sequential
 from keras.callbacks import ModelCheckpoint, TensorBoard, History
 
 
-def run(X, y, labels, groups, epochs, timestamp):
+def run(X, y, labels, groups, epochs, timestamp, cfg=None):
     """solution model
     """
 

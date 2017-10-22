@@ -1,5 +1,6 @@
 from time import time
 import lib
+from lib import models
 import numpy as np
 from keras.layers import Conv2D, GlobalAveragePooling2D
 from keras.layers import Dense
@@ -7,9 +8,16 @@ from keras.models import Sequential
 from keras.callbacks import ModelCheckpoint, TensorBoard, History, ProgbarLogger
 
 
-def run(X, y, labels, groups, epochs, timestamp):
-    """solution model
+def run(X, y, cfg): # labels, groups, epochs, timestamp, cfg=None):
+    """benchmark model
     """
+
+    # extract parameters
+    labels    = cfg['divisor'] * cfg['divisor']
+    epochs    = cfg['epochs']
+    timestamp = cfg['timestamp']
+    groups    = cfg['augments'] + 1
+
     train_X, valid_X, test_X, train_y, valid_y, test_y = lib.srtm.train_test_split(X, y, labels, groups)
 
     print("train data      X: " + str(train_X.shape) + " y: " + str(train_y.shape))
@@ -17,10 +25,12 @@ def run(X, y, labels, groups, epochs, timestamp):
     print("test data       X: " + str(test_X.shape) + " y: " + str(test_y.shape))
 
     # create model
-    model = Sequential()
-    model.add(Conv2D(filters=32, kernel_size=3, padding='same', activation='relu', input_shape=train_X.shape[1:]))
-    model.add(GlobalAveragePooling2D())
-    model.add(Dense(labels, activation='softmax'))
+    model = models.model0(labels, train_X.shape[1:])
+
+    # model = Sequential()
+    # model.add(Conv2D(filters=32, kernel_size=3, padding='same', activation='relu', input_shape=train_X.shape[1:]))
+    # model.add(GlobalAveragePooling2D())
+    # model.add(Dense(labels, activation='softmax'))
 
     # print summary
     model.summary()
