@@ -1,0 +1,7 @@
+{
+  "model"    : "solution",
+  "datafile" : "data/level1/N37W098.hgt",
+  "divisor"  : "16",
+  "gencount" : "15",
+  "epochs"   : "300"
+}

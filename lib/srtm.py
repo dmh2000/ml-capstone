@@ -1,8 +1,8 @@
 #!/usr/bin/env python
 import sys
 import numpy as np
-from   PIL import Image
-from   keras.preprocessing.image import ImageDataGenerator
+from PIL import Image
+from keras.preprocessing.image import ImageDataGenerator
 from keras.utils import np_utils
 
 # allowed divisors
@@ -359,16 +359,16 @@ def train_test_split(X, y, labels, stride, split=(.80, .10, .10)):
     # create final feature data
     train_x = np.array(train_x)
     valid_x = np.array(valid_x)
-    test_x  = np.array(test_x)
+    test_x = np.array(test_x)
 
     # scale to 0..1.0
     train_x = train_x.astype('float32') / 255.0
     valid_x = valid_x.astype('float32') / 255.0
-    test_x  = test_x.astype('float32') / 255.0
+    test_x = test_x.astype('float32') / 255.0
 
     # create final label data
     train_y = np_utils.to_categorical(np.array(train_y), labels)
     valid_y = np_utils.to_categorical(np.array(valid_y), labels)
-    test_y  = np_utils.to_categorical(np.array(test_y), labels)
+    test_y = np_utils.to_categorical(np.array(test_y), labels)
 
     return train_x, valid_x, test_x, train_y, valid_y, test_y
