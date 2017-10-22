@@ -1,0 +1,1 @@
+echo python -u capstone.py %1
