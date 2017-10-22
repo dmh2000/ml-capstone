@@ -1,5 +1,5 @@
 {
-  "model"    : "solution",
+  "model"    : "model1",
   "datafile" : "data/level1/N37W098.hgt",
   "divisor"  : "16",
   "augments" : "15",
