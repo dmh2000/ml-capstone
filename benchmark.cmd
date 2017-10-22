@@ -1,1 +1,0 @@
-python -u capstone.py data/level1/N39W120.hgt 16 15 5 benchmark 20171021_1342
