@@ -1,0 +1,7 @@
+{
+  "model"    : "model4",
+  "datafile" : "data/level1/N39W120.hgt",
+  "divisor"  : "16",
+  "augments" : "15",
+  "epochs"   : "300"
+}
