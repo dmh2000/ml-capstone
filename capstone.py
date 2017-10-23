@@ -25,6 +25,12 @@ def run(X, y, cfg):  # labels, groups, epochs, timestamp, cfg=None):
     print("validation data X: " + str(valid_X.shape) + " y: " + str(valid_y.shape))
     print("test data       X: " + str(test_X.shape) + " y: " + str(test_y.shape))
 
+    # =========================================
+    # save the test images
+    # =========================================
+    # arr = np.array([srtm.tensor_to_array(x) for x in test_X])
+    # srtm.save_images(arr, "images/model3/test", (75, 75))
+
     # get the model object
     model_type = lib.models.get_model(cfg['model'])
 
@@ -159,6 +165,11 @@ if __name__ == "__main__":
     n = [srtm.normalize(x, 255) for x in s]
     n = np.array(n)
     print("normalized shape : {0}".format(n.shape))
+
+    # =========================================
+    # save the base images
+    # =========================================
+    # srtm.save_images(n,"images/model3/base", (75, 75))
 
     # use datagen to augment the features and labels for each image
     # each one is processed individually

@@ -69,6 +69,14 @@ def toimage(m, fname=None, size=(512, 512)):
     return img
 
 
+def save_images(arr, path, size=(512,512)):
+    i = 0
+    for a in arr:
+        fname = path + "{0:03d}.jpg".format(i)
+        toimage(a, fname=fname, size=size)
+        i += 1
+
+
 def normalize(m, scale=1.0):
     """ rescale the 2d array to float range (0.0..scale)
         - m     : 2d matrix of height postings
@@ -248,8 +256,7 @@ def array_to_tensor(m):
 
 def tensor_to_array(t):
     """write single tensor as an image"""
-    m = t[0]
-    n = m.reshape(m.shape[0], m.shape[1])
+    n = np.squeeze(t)
     return n
 
 

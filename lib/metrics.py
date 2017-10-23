@@ -39,6 +39,18 @@ def print_metrics(predictions, test_y, history, epochs, t0, t1):
     # print training time
     print("training time  : " + et(t0, t1))
 
+    # print actual,prediction pairs
+    ap = np.squeeze(np.dstack((actual,predictions)))
+    i = 0
+    for p in ap:
+        print(p, end="")
+        i += 1
+        if i >= 16:
+            print()
+    print()
+
+
+
 
 def plot(ax, data, label):
     ax.set_title(label)
