@@ -16,6 +16,21 @@ def et(t0, t1):
     return "{0:02d}".format(m) + ":" + "{0:02d}".format(s)
 
 
+def print_mismatches(actual, predictions):
+    """print any mismatches between actual and predicted"""
+    # print actual,prediction pairs
+    ap = np.squeeze(np.dstack((actual, predictions)))
+    i = 0
+    for p in ap:
+        if p[0] != p[1]:
+            print(p, end="")
+            i += 1
+            if i >= 16:
+                print()
+                i = 0
+    print()
+
+
 def print_metrics(predictions, test_y, history, epochs, t0, t1):
     """print metrics from benchmark or solution model"""
     h = history
@@ -39,17 +54,8 @@ def print_metrics(predictions, test_y, history, epochs, t0, t1):
     # print training time
     print("training time  : " + et(t0, t1))
 
-    # print actual,prediction pairs
-    ap = np.squeeze(np.dstack((actual,predictions)))
-    i = 0
-    for p in ap:
-        print(p, end="")
-        i += 1
-        if i >= 16:
-            print()
-    print()
-
-
+    # print matches
+    print_mismatches(actual, predictions)
 
 
 def plot(ax, data, label):
