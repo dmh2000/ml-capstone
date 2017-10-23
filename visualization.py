@@ -84,7 +84,7 @@ if __name__ == "__main__":
         vis_load(f[0], f[1])
 
     for f in mark_files:
-        vis_mark(f[0], f[1], 8)
+        vis_mark(f[0], f[1], 5)
 
     # create subdivided images
     vis_subdivide("data/level1/N39W120.hgt", "images/level1", 5)
