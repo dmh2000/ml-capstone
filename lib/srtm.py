@@ -253,7 +253,7 @@ def tensor_to_array(t):
     return n
 
 
-def datagen(a, count):
+def datagen(a, count, rotation_range=45, height_shift_range=0.1, width_shift_range=0.1):
     """generate 'count' modified images from single image array
        images are returned as a tuple of
        (keras image tensor,label)
@@ -262,9 +262,9 @@ def datagen(a, count):
 
     # create the datagenerator
     datagen = ImageDataGenerator(
-        rotation_range=30,
-        height_shift_range=0.1,
-        width_shift_range=0.1,
+        rotation_range=rotation_range,
+        height_shift_range=height_shift_range,
+        width_shift_range=width_shift_range,
         horizontal_flip=False,
         fill_mode='nearest'
     )

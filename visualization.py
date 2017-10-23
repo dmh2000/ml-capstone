@@ -44,7 +44,7 @@ def vis_datagen(input_file, output_path, divisions, size=(96, 96)):
     # pick one image
     m = s[0]
     # get 4 modified images
-    r = srtm.datagen(m, 4)
+    r = srtm.datagen(m, 4, rotation_range=45, height_shift_range=0.1, width_shift_range=0.1)
     i = 1
     for t in r:
         a = srtm.tensor_to_array(t)
