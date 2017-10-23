@@ -1,10 +1,10 @@
-timestamp : 20171023_055956
-config    : config/model3/level1-N39W120.json
+timestamp : 20171023_150411
+config    : config/model4/level1-N39W120.json
 datafile  : data/level1/N39W120.hgt
 divisor   : 16
 augments  : 15
 epochs    : 300
-model     : model3
+model     : model4
 input shape      : (1200, 1200)
 subdivided shape : (256, 75, 75)
 normalized shape : (256, 75, 75)
@@ -35,12 +35,18 @@ dropout_3 (Dropout)          (None, 18, 18, 32)        0
 _________________________________________________________________
 max_pooling2d_3 (MaxPooling2 (None, 9, 9, 32)          0         
 _________________________________________________________________
+conv2d_4 (Conv2D)            (None, 9, 9, 32)          25632     
+_________________________________________________________________
+dropout_4 (Dropout)          (None, 9, 9, 32)          0         
+_________________________________________________________________
+max_pooling2d_4 (MaxPooling2 (None, 4, 4, 32)          0         
+_________________________________________________________________
 global_average_pooling2d_1 ( (None, 32)                0         
 _________________________________________________________________
 dense_1 (Dense)              (None, 256)               8448      
 =================================================================
-Total params: 60,544
-Trainable params: 60,544
+Total params: 86,176
+Trainable params: 86,176
 Non-trainable params: 0
 _________________________________________________________________
 <<START>>
@@ -53,17 +59,18 @@ _________________________________________________________________
 
 <<DONE>>
 
-loss : 0.11084712378215045
-acc  : 0.97265625
- 32/256 [==>...........................] - ETA: 0sfinal accuracy : 0.9899
-best  accuracy : 0.9961
-final loss     : 0.0455
-best loss      : 0.0172
-final val acc  : 0.9687
+loss : 0.1833265123423189
+acc  : 0.9453125
+ 32/256 [==>...........................] - ETA: 0sfinal accuracy : 0.9880
+best  accuracy : 0.9938
+final loss     : 0.1322
+best loss      : 0.0372
+final val acc  : 0.9492
 best  val acc  : 0.9727
-final val loss : 0.2505
-best  val loss : 0.1229
-Avg Accuracy   : 97.2656%
+final val loss : 0.5785
+best  val loss : 0.1492
+Avg Accuracy   : 94.5312%
 epochs         : 300
-training time  : 14:37
+training time  : 14:51
+[ 25 179][40 79][ 45 170][ 66 163][ 71 180][ 75 191][144 245][150 235][152 226][162 226][194 226][222 224][241 225][251  88]
 done
