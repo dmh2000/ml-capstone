@@ -30,7 +30,8 @@ def print_metrics(predictions, test_y, history, epochs, t0, t1):
     print("best  val loss : {0:.4f}".format(h['val_loss'][np.argmin(h['val_loss'])]))
 
     # report test accuracy
-    test_accuracy = 100 * np.sum(np.array(predictions) == np.argmax(test_y, axis=1)) / len(predictions)
+    actual = np.argmax(test_y, axis=1)
+    test_accuracy = 100 * np.sum(np.array(predictions) == actual) / len(predictions)
     print('Avg Accuracy   : %.4f%%' % test_accuracy)
 
     # print epochs
@@ -67,16 +68,20 @@ class Progress(keras.callbacks.Callback):
         self.count = 0
 
     def on_train_begin(self, logs=None):
+        super()
         print("<<START>>")
 
     def on_epoch_begin(self, epoch, logs=None):
+        super()
         print(".", end='', flush=True)
 
     def on_epoch_end(self, epoch, logs=None):
+        super()
         self.count += 1
         if self.count >= 50:
             print()
             self.count = 0
 
     def on_train_end(self, logs=None):
+        super()
         print("\n<<DONE>>")

@@ -369,6 +369,9 @@ def train_test_split(X, y, labels, stride, split=(.80, .10, .10)):
     # create final label data
     train_y = np_utils.to_categorical(np.array(train_y), labels)
     valid_y = np_utils.to_categorical(np.array(valid_y), labels)
+
+    # keep test y as list and as categorical
+    test_y_list = test_y
     test_y = np_utils.to_categorical(np.array(test_y), labels)
 
     return train_x, valid_x, test_x, train_y, valid_y, test_y

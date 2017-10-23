@@ -82,9 +82,15 @@ def run(X, y, cfg):  # labels, groups, epochs, timestamp, cfg=None):
     # load best weights
     model.load_weights(weights_file)
 
+    # evaluate the model
+    score= model.evaluate(test_X,test_y,verbose=0)
+    print()
+    print("loss : {0}".format(score[0]))
+    print("acc  : {0}".format(score[1]))
+
     # get the prediction for each test data image
     # this one only gets the top prediction index
-    predictions = [np.argmax(model.predict(np.expand_dims(tensor, axis=0))) for tensor in test_X]
+    predictions = model.predict_classes(test_X)
 
     # report test metrics
     lib.metrics.print_metrics(predictions, test_y, history.history, epochs, t0, t1)

@@ -1,0 +1,17 @@
+visualizing intermediate layers
+
+Visualizing weights & intermediate layer outputs of CNN in Keras
+Anuj Shah
+https://youtu.be/5tW3y7lm7V0
+
+# config
+model.get_config()
+model.layers[0].get_config()
+# parameters
+model.count_params()
+model.layers[0].count_params()
+# weights
+model.layers[0].W.get_value()
+# biases
+model.layers[0].b.get_value()
+

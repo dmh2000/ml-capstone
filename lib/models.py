@@ -77,19 +77,19 @@ def model4(labels,input_shape):
     """ 4 layer , 16 filters, kernel = 5 """
     model = Sequential()
 
-    model.add(Conv2D(filters=16, kernel_size=5, padding='same', activation='relu', input_shape=input_shape))
+    model.add(Conv2D(filters=32, kernel_size=5, padding='same', activation='relu', input_shape=input_shape))
     model.add(Dropout(0.2))
     model.add(MaxPooling2D(pool_size=2))
 
-    model.add(Conv2D(filters=16, kernel_size=5, padding='same', activation='relu'))
+    model.add(Conv2D(filters=32, kernel_size=5, padding='same', activation='relu'))
     model.add(Dropout(0.2))
     model.add(MaxPooling2D(pool_size=2))
 
-    model.add(Conv2D(filters=16, kernel_size=5, padding='same', activation='relu'))
+    model.add(Conv2D(filters=32, kernel_size=5, padding='same', activation='relu'))
     model.add(Dropout(0.2))
     model.add(MaxPooling2D(pool_size=2))
 
-    model.add(Conv2D(filters=16, kernel_size=5, padding='same', activation='relu'))
+    model.add(Conv2D(filters=32, kernel_size=5, padding='same', activation='relu'))
     model.add(Dropout(0.2))
     model.add(MaxPooling2D(pool_size=2))
 
