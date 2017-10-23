@@ -1,4 +1,4 @@
-timestamp : 20171023_064144
+timestamp : 20171023_153056
 config    : config/model2/level1-N37W098.json
 datafile  : data/level1/N37W098.hgt
 divisor   : 16
@@ -53,17 +53,20 @@ _________________________________________________________________
 
 <<DONE>>
 
-loss : 0.6270018704235554
-acc  : 0.80859375
- 32/256 [==>...........................] - ETA: 0sfinal accuracy : 0.8656
-best  accuracy : 0.8672
-final loss     : 0.4049
-best loss      : 0.4049
-final val acc  : 0.7695
-best  val acc  : 0.7930
-final val loss : 0.7211
-best  val loss : 0.7211
-Avg Accuracy   : 80.8594%
+loss : 0.5387762188911438
+acc  : 0.87109375
+ 32/256 [==>...........................] - ETA: 0sfinal accuracy : 0.8936
+best  accuracy : 0.8942
+final loss     : 0.3208
+best loss      : 0.3208
+final val acc  : 0.8477
+best  val acc  : 0.8711
+final val loss : 0.5752
+best  val loss : 0.5369
+Avg Accuracy   : 87.1094%
 epochs         : 300
-training time  : 08:13
+training time  : 08:14
+[ 1 48][ 7 98][12 76][ 14 212][21 22][22 21][34 16][43 84][ 61 166][69 30][79 30][ 82 192][ 94 125][98  7][106  57][118 146]
+[128 180][138 186][143 175][145  64][146 192][162   7][177 216][180 181][182  11][186 244][200 174][215 217][232 193][233 179][234 186][251 228]
+[252 217]
 done

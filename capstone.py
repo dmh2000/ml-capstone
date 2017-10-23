@@ -102,7 +102,7 @@ def run(X, y, cfg):  # labels, groups, epochs, timestamp, cfg=None):
     lib.metrics.print_metrics(predictions, test_y, history.history, epochs, t0, t1)
 
     # plot history
-    lib.metrics.plot_history("benchmark", timestamp, history.history)
+    lib.metrics.plot_history(cfg["model"], timestamp, history.history)
 
 
 if __name__ == "__main__":

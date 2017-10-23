@@ -1,10 +1,10 @@
-timestamp : 20171023_065009
-config    : config/model3/level1-N37W098.json
-datafile  : data/level1/N37W098.hgt
+timestamp : 20171023_144110
+config    : config/model2/level1-N39W120.json
+datafile  : data/level1/N39W120.hgt
 divisor   : 16
 augments  : 15
 epochs    : 300
-model     : model3
+model     : model2
 input shape      : (1200, 1200)
 subdivided shape : (256, 75, 75)
 normalized shape : (256, 75, 75)
@@ -17,30 +17,30 @@ test data       X: (256, 75, 75, 1) y: (256, 256)
 _________________________________________________________________
 Layer (type)                 Output Shape              Param #   
 =================================================================
-conv2d_1 (Conv2D)            (None, 75, 75, 32)        832       
+conv2d_1 (Conv2D)            (None, 75, 75, 16)        160       
 _________________________________________________________________
-dropout_1 (Dropout)          (None, 75, 75, 32)        0         
+dropout_1 (Dropout)          (None, 75, 75, 16)        0         
 _________________________________________________________________
-max_pooling2d_1 (MaxPooling2 (None, 37, 37, 32)        0         
+max_pooling2d_1 (MaxPooling2 (None, 37, 37, 16)        0         
 _________________________________________________________________
-conv2d_2 (Conv2D)            (None, 37, 37, 32)        25632     
+conv2d_2 (Conv2D)            (None, 37, 37, 16)        2320      
 _________________________________________________________________
-dropout_2 (Dropout)          (None, 37, 37, 32)        0         
+dropout_2 (Dropout)          (None, 37, 37, 16)        0         
 _________________________________________________________________
-max_pooling2d_2 (MaxPooling2 (None, 18, 18, 32)        0         
+max_pooling2d_2 (MaxPooling2 (None, 18, 18, 16)        0         
 _________________________________________________________________
-conv2d_3 (Conv2D)            (None, 18, 18, 32)        25632     
+conv2d_3 (Conv2D)            (None, 18, 18, 16)        2320      
 _________________________________________________________________
-dropout_3 (Dropout)          (None, 18, 18, 32)        0         
+dropout_3 (Dropout)          (None, 18, 18, 16)        0         
 _________________________________________________________________
-max_pooling2d_3 (MaxPooling2 (None, 9, 9, 32)          0         
+max_pooling2d_3 (MaxPooling2 (None, 9, 9, 16)          0         
 _________________________________________________________________
-global_average_pooling2d_1 ( (None, 32)                0         
+global_average_pooling2d_1 ( (None, 16)                0         
 _________________________________________________________________
-dense_1 (Dense)              (None, 256)               8448      
+dense_1 (Dense)              (None, 256)               4352      
 =================================================================
-Total params: 60,544
-Trainable params: 60,544
+Total params: 9,152
+Trainable params: 9,152
 Non-trainable params: 0
 _________________________________________________________________
 <<START>>
@@ -53,17 +53,19 @@ _________________________________________________________________
 
 <<DONE>>
 
-loss : 0.16266677854582667
-acc  : 0.96875
- 32/256 [==>...........................] - ETA: 0sfinal accuracy : 0.9883
-best  accuracy : 0.9912
-final loss     : 0.0501
-best loss      : 0.0310
-final val acc  : 0.9180
-best  val acc  : 0.9492
-final val loss : 0.3398
-best  val loss : 0.2032
-Avg Accuracy   : 96.8750%
+loss : 0.33772650733590126
+acc  : 0.91796875
+ 32/256 [==>...........................] - ETA: 0sfinal accuracy : 0.9303
+best  accuracy : 0.9336
+final loss     : 0.2129
+best loss      : 0.2103
+final val acc  : 0.8672
+best  val acc  : 0.9219
+final val loss : 0.4205
+best  val loss : 0.3326
+Avg Accuracy   : 91.7969%
 epochs         : 300
-training time  : 14:38
+training time  : 08:12
+[14 21][ 20 196][ 25 174][32 57][ 38 121][ 42 120][ 79 148][ 95 217][97 57][114 168][118 184][153 196][179  25][188 191][208 224][209 213]
+[218   5][223 179][226 194][227 111][236  24]
 done
