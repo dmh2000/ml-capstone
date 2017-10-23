@@ -18,6 +18,40 @@ machine learning capstone
 - the windows cmd file doesn't create a timestamp for you
 - information is printed to console and are stored in 'results/timestamp'
 
+## Directory Structure
+
+<pre>
++---Config         (.json config files for running various models)
+|   +---model1
+|   +---model2
+|   +---model3
+|   \---model4
++---data           (input data : SRTM .hgt files)
+|   +---level1
+|   \---level2
++---doc            (documentation artifacts)
+|   \---proposal   (copy of proposal)
++---images         (output destination for visualization images)
+|   +---level1     (visualization images for a level 1 file)
+|   +---level2     (not populated)
+|   \---model3     (visualization images for a model 3 run)
++---lib            (Python module with supporting code)
++---logs           (Tensorboard Logs)
++---preview        (temp directory for testing)
++---results        (timestamped results including plot and text output)
+|   +---20171023_053951
+|   +---20171023_055131
+|   +---20171023_055956
+|   +---20171023_061445
+|   +---20171023_063004
+|   +---20171023_064144
+|   +---20171023_065009
+|   +---20171023_070500
+|   +---20171023_074451
+|   +---benchmark
+|   \---level2    (level2 run from Google Compute Engine)
+\---saved_models
+</pre>
 
 ## Python Files
 
@@ -28,12 +62,15 @@ This file does all the data preprocessing and execution
 of the model, except for defining the model itself. see 
 lib/models.py
 
+### visualization.py
+
+A tool used to produce images for documentation. Not part of the model
+
 ### lib/models.py
 
 This file contains all the models used in the testing. It
 passes a dictionary to the main program with keys as
 names of the models. 
-
 
 ### lib/srtm.py
 
