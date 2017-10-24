@@ -3,6 +3,16 @@ import lib.srtm as srtm
 import matplotlib.pyplot as plt
 
 
+def vis_stat(input_file):
+    """ output statistics about the image data """
+    # read the image
+    a = srtm.read(input_file)
+
+    # compute mean and standard deviation
+    print(input_file + " : std: {0:.2f} mean: {1:.2f} meters".format(np.std(a), np.mean(a)))
+
+    pass
+
 def vis_load(input_file, output_file, size=(1024, 1024)):
     """read srtm file and write as jpeg"""
     # read the image
@@ -62,10 +72,11 @@ def vis_histogram(a_img):
         # get one plane of monochrome image
         a = a[:, :, 0].flatten()
         h = ax[i].hist(a, rwidth=0.90, label=aname)
-        ax[i].set_yticklabels([])
-        ax[i].set_xticklabels([])
+        ax[i].set_xlabel('pixel val')
+        ax[i].set_ylabel('frequency')
         ax[i].plot()
         i += 1
+    fig.set_tight_layout(True)
     fig.savefig("images/level1/histogram.svg")
 
 
@@ -73,24 +84,29 @@ if __name__ == "__main__":
     np.random.seed(42)
     base_files = [
         ["data/level1/N37W098.hgt", "images/level1/N37W098-b.jpg"],
-        ["data/level1/N39W120.hgt", "images/level1/N39W120-b.jpg"]
+        ["data/level1/N39W120.hgt", "images/level1/N39W120-b.jpg"],
+        ["data/level2/N37W098.hgt", "images/level1/N37W098-b.jpg"],
+        ["data/level2/N39W120.hgt", "images/level1/N39W120-b.jpg"],
     ]
     mark_files = [
         ["data/level1/N37W098.hgt", "images/level1/N37W098-m.jpg"],
         ["data/level1/N39W120.hgt", "images/level1/N39W120-m.jpg"]
     ]
 
-    for f in base_files:
-        vis_load(f[0], f[1])
-
-    for f in mark_files:
-        vis_mark(f[0], f[1], 5)
-
-    # create subdivided images
-    vis_subdivide("data/level1/N39W120.hgt", "images/level1", 5)
-
-    # generate mods of one image
-    vis_datagen("data/level1/N39W120.hgt", "images/level1", 5)
+   # for f in base_files:
+   #     vis_stat(f[0])
+#
+   # for f in base_files:
+   #     vis_load(f[0], f[1])
+#
+   # for f in mark_files:
+   #     vis_mark(f[0], f[1], 5)
+#
+   # # create subdivided images
+   # vis_subdivide("data/level1/N39W120.hgt", "images/level1", 5)
+#
+   # # generate mods of one image
+   # vis_datagen("data/level1/N39W120.hgt", "images/level1", 5)
 
     # histograms
     a_img = [
