@@ -1,6 +1,8 @@
 # ml-capstone
 machine learning capstone
 
+## Final Report is in ml-capstone.pdf
+
 ## Running on Linux
 
 - select or create a json config file
