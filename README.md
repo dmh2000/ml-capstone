@@ -3,20 +3,29 @@ machine learning capstone
 
 ## Final Report is in ml-capstone.pdf
 
-## Running on Linux
+## Running on Linux (preferred method)
 
-- select or create a json config file
+- get the data
+    - cd data
+    - ./download.sh
+- select a json config file
     - preconfigured files are in config/model[n]
-- \>./model.sh [config file]
+- run the model
+    - ./model.sh [config file]
 - the script creates a timestamp
 - information is printed to console and are stored in 'results/timestamp'
 
 
-## Running on Windows
+## Running on Windows (only if you have to)
 
-- select or create a json config file
+- get the data
+    - requires unix tools wget, unzip, mv and rm
+    - cd data
+    - download.cmd
+- select a json config file
     - preconfigured files are in config/model[n] 
-- \>model.cmd [config filename] [optional timestamp or label]
+- run the model    
+    - \>model.cmd [config filename] [optional timestamp or label]
 - the windows cmd file doesn't create a timestamp for you
 - information is printed to console and are stored in 'results/timestamp'
 
@@ -41,15 +50,14 @@ machine learning capstone
 +---logs           (Tensorboard Logs)
 +---preview        (temp directory for testing)
 +---results        (timestamped results including plot and text output)
-|   +---20171023_053951
-|   +---20171023_055131
-|   +---20171023_055956
-|   +---20171023_061445
-|   +---20171023_063004
-|   +---20171023_064144
-|   +---20171023_065009
-|   +---20171023_070500
-|   +---20171023_074451
+|   +---20171023_142930
+|   +---20171023_144110
+|   +---20171023_144934
+|   +---20171023_150411
+|   +---20171023_151914
+|   +---20171023_153056
+|   +---20171023_153922
+|   +---20171023_155408
 |   +---benchmark
 |   \---level2    (level2 run from Google Compute Engine)
 \---saved_models
@@ -59,7 +67,7 @@ machine learning capstone
 
 ### capstone.py
 
-This is the main file that is run by the shell scripts. 
+This is the main Python file that is run by the shell scripts. 
 This file does all the data preprocessing and execution
 of the model, except for defining the model itself. see 
 lib/models.py
