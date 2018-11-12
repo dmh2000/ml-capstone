@@ -1,6 +1,8 @@
 # ml-capstone
 machine learning capstone
 
+This project is an attempt to use images created from terrain elevation data to determine vehicle position.
+
 ## Final Report is in ml-capstone.pdf
 
 ## Running on Linux (preferred method)
